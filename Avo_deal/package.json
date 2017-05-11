@@ -1,0 +1,14 @@
+{
+  "name": "avo",
+  "version": "1.0.0",
+  "description": "kata test",
+  "main": "Avo_deal.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Sivu",
+  "license": "ISC",
+  "dependencies": {
+    "mocha": "^3.3.0"
+  }
+}
