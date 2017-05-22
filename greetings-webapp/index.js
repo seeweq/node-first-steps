@@ -1,28 +1,33 @@
 var express = require('express')
+var exphbs  = require('express-handlebars');
+var bodyParser = require('body-parser');
 var app = express()
-var namesGreetedMap = {};
+
 var server = app.listen(3000);
 
-app.get('/greetings/:name', function(req, res) {
-  res.send('Hello, ' + req.params.name);
-  var name = req.params.name
-  if (namesGreetedMap[name] == undefined) {
-    namesGreetedMap[name] = 1
-  }
-  else {
-    namesGreetedMap[name] += 1
-  }
+app.engine('handlebars', exphbs({defaultLayout: 'main'}))
+app.set('view engine', 'handlebars');
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+app.use(express.static('public'));
+
+
+app.get('/greetings', function(req, res) {
+  res.render('index')
 });
 
-app.get('/greeted/', function(req, res) {
-  res.send(namesGreetedMap);
-});
-
-app.get('/counter/:user_name', function(req, res) {
-  var users = req.params.user_name;
-  if( namesGreetedMap[users] === undefined ){
-     namesGreetedMap[users] = 0
-    res.send('Hello, ' + users + ' has been greeted ' + namesGreetedMap[users] + ' time(s)');
+  app.post('/greetings', function(req ,res){
+  var language = req.body.language
+  if(language === 'english'){
+    res.render('index', {output: 'Hello, ' + req.body.firstName});
   }
+  else if (language === 'afrikaans') {
+  res.render('index', {output: 'Hallo, ' + req.body.firstName});
+  }
+  else if (language ==='isiXhosa'){
+  res.render('index', {output: 'Molo, ' + req.body.firstName});
+   }
 
-});
+ });
