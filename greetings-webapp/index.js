@@ -2,7 +2,7 @@ var express = require('express')
 var exphbs  = require('express-handlebars');
 var bodyParser = require('body-parser');
 var app = express()
-
+var counter = 0;
 var server = app.listen(3000);
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}))
@@ -19,15 +19,26 @@ app.get('/greetings', function(req, res) {
 });
 
   app.post('/greetings', function(req ,res){
-  var language = req.body.language
+  var message = '';
+  var language = req.body.language;
+  var nameGreeted = req.body.firstName;
+  
   if(language === 'english'){
-    res.render('index', {output: 'Hello, ' + req.body.firstName});
+    message = 'Hello, ' + nameGreeted;
+    counter++;
   }
   else if (language === 'afrikaans') {
-  res.render('index', {output: 'Hallo, ' + req.body.firstName});
+  message = 'Hallo, ' + nameGreeted ;
+  counter++;
   }
   else if (language ==='isiXhosa'){
-  res.render('index', {output: 'Molo, ' + req.body.firstName});
+  message = 'Molo, ' + nameGreeted ;
+  counter++;
    }
+
+   res.render('index',{
+     outputMessage : message,
+     outputCounter : counter
+   })
 
  });
